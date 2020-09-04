@@ -1,4 +1,4 @@
-# Task Manager - JavaScript
+# Blockchain E-Voting System
 *`[1][2]`*
 <p align="center">
   <img src="/static/github/octocat.png" alt="octocat" width="150" height="150"/>
@@ -98,7 +98,7 @@ A block contains information about the time the transaction occurred, previous t
 ```When individuals wish to send money to other users, they must provide a digital signature that is produced when provided with the private key. This process protects against theft of funds.```
 
 
-![bcsecurity2](/static/img/bcsecurity2.png)
+![bcsecurity1](/static/img/bcsecurity1.png)
 <br>
 
 
@@ -133,10 +133,10 @@ Here is the current list of known random number generation issues/bugs that have
 <br><br>
 ## Screenshots
 
-![screenshot1](/static/github/screenshot_1.png)
-![screenshot2](/static/github/screenshot_2.png)
-![screenshot3](/static/github/screenshot_3.png)
-![screenshot4](/static/github/screenshot_4.png)
+![screenshot1](/static/github/Screenshot_1.png)
+![screenshot2](/static/github/Screenshot_2.png)
+![screenshot3](/static/github/Screenshot_3.png)
+![screenshot4](/static/github/Screenshot_4.png)
 <br><br>
 ## References
 
