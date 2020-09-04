@@ -1,0 +1,6 @@
+---
+applications:
+- name: BlockchainVotingV2
+  random-route: true
+  memory: 512M
+

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Voting Electoral System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <!-- http://exploreflask.com/en/latest/static.html -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/blockchain1.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/blockchain2.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/bcsecurity1.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/bcsecurity2.png') }}">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+                <div class="jumbotron jumbotron-h1">
+                    <h1><strong>VOTING ELECTORAL SYSTEM</strong></h1>
+                    <h5 align="right"><span class="badge badge-success">BLOCKCHAIN tech</span></h5>
+                </div>
+            </div>
+            </div>
+            <hr>
+            <!-- Button with the link to the other html file. In this case a link between network.html and node.html. -->
+            <!-- COPY AND PASTE FOR A NEW BUlds-ringTTON -->
+            <div class="row">
+                <div class="col">
+                    <ul class="nav nav-pills nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Vote</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/statistics">Statistics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/blockchain">Blockchain</a>
+                        </li><!--
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network">Network</a>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+          <!-- COPY AND PASTE FOR A NEW BUTTON -->
+          <!-- Button with the link to the other html file. In this case a link between network.html and node.html. -->
+            <hr>
+            <div class="row my-3">
+                <div class="col">
+                  <div class="jumbotron jumbotron-user">
+                    <button class="btn btn-warning btn-lg btn-block" @click="onLoadData">
+                      <span class="spinner-border spinner-border-sm"></span>Load Blockchain</button>
+                  </div>
+                </div>
+            </div>
+            <div v-if="error" class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+            <div v-if="success" class="alert alert-success" role="alert">
+                {{ success }}
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div v-if="dataLoading" class="lds-ring">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div v-if="!dataLoading" class="accordion">
+                        <div class="card card_bc" v-for="(data, index) in loadedData">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" @click="showElement === index ? showElement = null : showElement = index">
+                                        <strong>Block</strong> #{{ data.index }}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div class="collapse" :class="{show: showElement === index}">
+                                <div class="card-body">
+                                    <p><strong>Previous Hash:</strong> {{ data.previous_hash }}</p>
+                                    <p><strong>Timestamp:</strong> {{ data.timestamp }}</p>
+                                    <div><strong>Transactions:</strong></div>
+                                    <div class="list-group">
+                                        <div v-for="tx in data.transactions" class="list-group-item flex-column align-items-start list-group-item_bc">
+                                            <div><p><strong>Public key:</strong> {{ tx.sender }}</p></div>
+                                            <div><p><strong>ID:</strong> {{ tx.recipient }}</p></div>
+                                            <div><p><strong>Vote:</strong> {{ tx.amount }}</p></div>
+                                            <div><p><strong>Signature:</strong> {{ tx.signature }}</p></div>
+                                        </div>
+                                    </div>
+                                    <br><div><p><strong>Proof of Work:</strong> {{ data.proof }}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <div class="jumbotron jumbotron-info" id="ju">
+                            <div class="form-group" id="form1">
+                                <h2><br>Blockchain Structure: </h2>
+                                <img class="img-fluid" id="img1" src="/static/img/blockchain3.png" alt="Blockchain3_img">
+                                <h2><br>Understanding a Block: </h2>
+                                <img class="img-fluid" src="/static/img/blockchain1.png" alt="Blockchain_img">
+                                <h2><br>Understanding Public-Private key: </h2>
+                                <img class="img-fluid" src="/static/img/bcsecurity1.png" alt="bcsecurity1_img">
+                                <h2><br>Understanding Blockchain Security Layers: </h2>
+                                <img class="img-fluid" src="/static/img/bcsecurity2.png" alt="bcsecurity2_img">
+                            </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                blockchain: [],
+                dataLoading: false,
+                showElement: null,
+                error: null,
+                success: null
+            },
+            computed: {
+                loadedData: function () {
+                        return this.blockchain;
+                }
+            },
+            mounted:function(){
+                this.bodyOnLoad() //method1 will execute at pageload
+            },
+            methods: {
+                onLoadData: function () {
+                        // Load blockchain data
+                        document.getElementById("ju").style.display = "block";
+                        var vm = this
+                        this.dataLoading = true
+                        // Axios is called above in the script url, and it's a tool that allow to sent http request
+                        axios.get('/chain')
+                            // then holds the request
+                            .then(function (response) {
+                                // console.log(response.data)
+                                vm.blockchain = response.data;
+                                vm.dataLoading = false;
+                                vm.error = null;
+                                vm.success = 'Statistics loaded successfully!';
+                            })
+                            .catch(function (error) {
+                                vm.dataLoading = false;
+                                vm.success = null;
+                                vm.error = 'Something went wrong.';
+                            });
+                },
+                bodyOnLoad: function () {
+                    // alert("body onload");
+                    document.getElementById("ju").style.display = "none";
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
